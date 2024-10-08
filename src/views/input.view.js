@@ -1,5 +1,6 @@
 import { Console } from '@/lib/utils/console';
-import { INPUT_MESSAGE, USER_INPUT } from '@/views/input.view.constant';
+
+import { INPUT_MESSAGE, USER_INPUT } from './input.view.constant';
 
 class InputView {
   static async #ask(query) {

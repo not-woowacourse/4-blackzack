@@ -1,6 +1,6 @@
 import { shuffle } from 'es-toolkit';
 
-import { PLAYING_CARD } from '@/lib/utils/playing-card.constant';
+import { PLAYING_CARD } from './playing-card.constant';
 
 class BlackzackDeckGenerator {
   static #getBlackzackDeck() {

@@ -1,6 +1,7 @@
 import { GAME_RESULT } from '@/lib/constants/game-result.constant';
 import { Console } from '@/lib/utils/console';
-import { CANDIDATE, OUTPUT_MESSAGE } from '@/views/output.view.constant';
+
+import { CANDIDATE, OUTPUT_MESSAGE } from './output.view.constant';
 
 class OutputView {
   static #print(message) {
