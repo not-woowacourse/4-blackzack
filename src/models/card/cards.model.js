@@ -11,9 +11,24 @@ class Cards {
     this.#score = 0;
   }
 
-  // Ace 가치 계산 로직 바뀐다면 쪼개는 게 유리할 수 있다~
+  #calculateScore({ initialScore, aceCount }) {
+    // 너무 절차지향적인 로직이야 ... ㅜㅜ
+    let aceLeft = aceCount;
+    let score = initialScore;
+
+    while (score >= BLACKJACK_RULE.BUST_MINIMUM_THRESHOLD && aceLeft > 0) {
+      score -= BLACKJACK_RULE.ACE_VALUE - BLACKJACK_RULE.ACE_VALUE_WHEN_BUST;
+      aceLeft -= 1;
+    }
+
+    return score;
+  }
+
   #updateScore() {
-    this.#score = sum(this.cards.map((card) => card.value));
+    const aceCount = this.cards.filter((card) => card.isAce()).length;
+    const initialScore = sum(this.cards.map((card) => card.value));
+
+    this.#score = this.#calculateScore({ initialScore, aceCount });
   }
 
   add(card) {

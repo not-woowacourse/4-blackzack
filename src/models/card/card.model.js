@@ -25,6 +25,10 @@ class Card {
     return `${this.#rank}${suitKoreanString}`;
   }
 
+  isAce() {
+    return this.#rank === PLAYING_CARD_RANK.ACE;
+  }
+
   get suit() {
     return this.#suit;
   }
