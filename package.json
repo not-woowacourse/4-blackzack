@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/not-woowacourse/4-blackzack#readme",
   "dependencies": {
+    "@toss/hangul": "^1.7.0",
     "es-toolkit": "^1.22.0",
     "lodash-es": "^4.17.21",
     "webpack": "^5.94.0",
