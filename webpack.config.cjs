@@ -1,3 +1,5 @@
+
+const { DEFAULT_EXTENSIONS } = require('@babel/core');
 const path = require('path');
 
 module.exports = {
