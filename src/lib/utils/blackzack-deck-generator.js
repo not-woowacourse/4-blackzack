@@ -1,11 +1,11 @@
 import { shuffle } from 'es-toolkit';
 
-import { PLAYING_CARD } from './playing-card.constant';
+import { PLAYING_CARD } from '@/lib/constants/playing-card.constant';
 
 class BlackzackDeckGenerator {
   static #getBlackzackDeck() {
-    return PLAYING_CARD.SUIT.flatMap((suit) =>
-      PLAYING_CARD.RANK.map((rank) => ({ suit, rank })),
+    return PLAYING_CARD.suits.flatMap((suit) =>
+      PLAYING_CARD.ranks.map((rank) => ({ suit, rank })),
     );
   }
 

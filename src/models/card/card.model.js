@@ -1,4 +1,7 @@
 import { BLACKJACK_RULE } from '@/lib/constants/blackjack-rule.constant';
+import { PLAYING_CARD_RANK } from '@/lib/constants/playing-card.constant';
+
+import { convertSuitToKoreanString } from './korean-playing-card-suit.constant';
 
 class Card {
   /**
@@ -9,31 +12,16 @@ class Card {
   #suit;
 
   constructor(rank, suit) {
-    this.#rank = rank; // '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'
-    this.#suit = suit; // '♠', '♣', '♥', '♦'
+    this.#rank = rank;
+    this.#suit = suit;
   }
 
   get rank() {
     return this.#rank;
   }
 
-  #convertSuitToKoreanString(suit) {
-    switch (suit) {
-      case '♠':
-        return '스페이드';
-      case '♣':
-        return '클로버';
-      case '♥':
-        return '하트';
-      case '♦':
-        return '다이아몬드';
-      default:
-        throw new Error('지원하지 않는 문양입니다.');
-    }
-  }
-
   toKoreanString() {
-    const suitKoreanString = this.#convertSuitToKoreanString(this.#suit);
+    const suitKoreanString = convertSuitToKoreanString(this.#suit);
     return `${this.#rank}${suitKoreanString}`;
   }
 
@@ -43,21 +31,21 @@ class Card {
 
   get value() {
     switch (this.#rank) {
-      case 'A':
+      case PLAYING_CARD_RANK.ACE:
         return BLACKJACK_RULE.ACE_VALUE;
-      case 'J':
-      case 'Q':
-      case 'K':
+      case PLAYING_CARD_RANK.KING:
+      case PLAYING_CARD_RANK.QUEEN:
+      case PLAYING_CARD_RANK.JACK:
         return BLACKJACK_RULE.FACE_CARD_VALUE;
-      case '2':
-      case '3':
-      case '4':
-      case '5':
-      case '6':
-      case '7':
-      case '8':
-      case '9':
-      case '10':
+      case PLAYING_CARD_RANK.TWO:
+      case PLAYING_CARD_RANK.THREE:
+      case PLAYING_CARD_RANK.FOUR:
+      case PLAYING_CARD_RANK.FIVE:
+      case PLAYING_CARD_RANK.SIX:
+      case PLAYING_CARD_RANK.SEVEN:
+      case PLAYING_CARD_RANK.EIGHT:
+      case PLAYING_CARD_RANK.NINE:
+      case PLAYING_CARD_RANK.TEN:
         return BLACKJACK_RULE.NUMBER_CARD_VALUE(this.#rank);
       default:
         throw new Error('지원하지 않는 카드 랭크입니다.');
