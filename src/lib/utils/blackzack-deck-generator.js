@@ -1,25 +1,12 @@
 import { shuffle } from 'es-toolkit';
 
-const SUITS = Object.freeze(['♠', '♣', '♥', '♦']);
-const RANKS = Object.freeze([
-  'A',
-  '2',
-  '3',
-  '4',
-  '5',
-  '6',
-  '7',
-  '8',
-  '9',
-  '10',
-  'J',
-  'Q',
-  'K',
-]);
+import { PLAYING_CARD } from '@/lib/constants/playing-card.constant';
 
 class BlackzackDeckGenerator {
   static #getBlackzackDeck() {
-    return SUITS.flatMap((suit) => RANKS.map((rank) => ({ suit, rank })));
+    return PLAYING_CARD.suits.flatMap((suit) =>
+      PLAYING_CARD.ranks.map((rank) => ({ suit, rank })),
+    );
   }
 
   static generateNewBlackzackDeck() {
