@@ -1,3 +1,4 @@
+import { GAME_RESULT } from '@/lib/constants/game-result.constant';
 import { Cards } from '@/models/card/cards.model';
 
 class Player {
@@ -57,14 +58,15 @@ class Player {
   }
 
   updateResult(result) {
+    // 애초에 result에 GameResult 타입만 올 수 있게 하면 되는데 말이지 ....
     switch (result) {
-      case 'win':
+      case GAME_RESULT.WIN:
         this.#increaseWinCount();
         break;
-      case 'draw':
+      case GAME_RESULT.DRAW:
         this.#increaseDrawCount();
         break;
-      case 'lose':
+      case GAME_RESULT.LOSE:
         this.#increaseLoseCount();
         break;
       default:

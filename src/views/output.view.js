@@ -1,4 +1,6 @@
+import { GAME_RESULT } from '@/lib/constants/game-result.constant';
 import { Console } from '@/lib/utils/console';
+import { CANDIDATE, OUTPUT_MESSAGE } from '@/views/output.view.constant';
 
 class OutputView {
   static #print(message) {
@@ -8,74 +10,83 @@ class OutputView {
   static #printReceiveCards(name, cards) {
     const cardString = cards.map((card) => card.toKoreanString()).join(', ');
 
-    this.#print(`${name}가 받은 카드는 ${cardString}입니다.`);
+    this.#print(OUTPUT_MESSAGE.RECEIVE_CARD({ name, cardString }));
   }
 
+  // useless?
   static #printAction(name, action) {
-    this.#print(`${name}가 ${action}하였습니다.`);
+    this.#print(OUTPUT_MESSAGE.ACTION({ name, action }));
   }
 
   static #printBust(name) {
-    this.#print(`${name}가 버스트입니다.`);
+    this.#print(OUTPUT_MESSAGE.BUST(name));
   }
 
   static #printSumOfCards(name, sum) {
-    this.#print(`${name} 카드의 합은 ${sum}입니다.`);
+    this.#print(OUTPUT_MESSAGE.SUM_OF_CARDS({ name, sum }));
   }
 
   static #printPlayerWin() {
-    this.#print('WINNER WINNER CHICKEN DINNER 🍗');
+    this.#print(OUTPUT_MESSAGE.PLAYER_WIN);
   }
 
   static #printPlayerDraw() {
-    this.#print('무승부입니다.');
+    this.#print(OUTPUT_MESSAGE.PLAYER_DRAW);
   }
 
   static #printPlayerLose() {
-    this.#print('플레이어가 패배하였습니다 😭');
+    this.#print(OUTPUT_MESSAGE.PLAYER_LOSE);
   }
 
   static printStartGame() {
-    this.#print('블랙잭 게임을 시작합니다.');
+    this.#print(OUTPUT_MESSAGE.START_GAME);
   }
 
   static printPlayerReceiveCards(cards) {
-    this.#printReceiveCards('플레이어', cards);
+    this.#printReceiveCards(CANDIDATE.PLAYER, cards);
   }
 
   static printDealerReceiveCards(cards) {
-    this.#printReceiveCards('딜러', cards);
+    this.#printReceiveCards(CANDIDATE.DEALER, cards);
   }
 
   static printDealerAction(action) {
-    this.#printAction('딜러', action);
+    this.#printAction(CANDIDATE.DEALER, action);
+  }
+
+  static printDealerActionHit() {
+    this.printDealerAction('히트');
+  }
+
+  static printDealerActionStand() {
+    this.printDealerAction('스탠드');
   }
 
   static printPlayerBust() {
-    this.#printBust('플레이어');
+    this.#printBust(CANDIDATE.PLAYER);
   }
 
   static printDealerBust() {
-    this.#printBust('딜러');
+    this.#printBust(CANDIDATE.DEALER);
   }
 
   static printSumOfDealerCards(sum) {
-    this.#printSumOfCards('딜러', sum);
+    this.#printSumOfCards(CANDIDATE.DEALER, sum);
   }
 
   static printSumOfPlayerCards(sum) {
-    this.#printSumOfCards('플레이어', sum);
+    this.#printSumOfCards(CANDIDATE.PLAYER, sum);
   }
 
   static printPlayerResult(result) {
     switch (result) {
-      case 'win':
+      case GAME_RESULT.WIN:
         this.#printPlayerWin();
         break;
-      case 'draw':
+      case GAME_RESULT.DRAW:
         this.#printPlayerDraw();
         break;
-      case 'lose':
+      case GAME_RESULT.LOSE:
         this.#printPlayerLose();
         break;
       default:
@@ -84,14 +95,19 @@ class OutputView {
   }
 
   static printEndGame() {
-    this.#print('블랙잭 게임을 종료합니다.');
+    this.#print(OUTPUT_MESSAGE.END_GAME);
   }
 
   static printFinalResult(winCount, drawCount, loseCount) {
     const totalGameCount = winCount + drawCount + loseCount;
 
     this.#print(
-      `총 ${totalGameCount}판하였으며, ${winCount}승 ${drawCount}무 ${loseCount}패입니다.`,
+      OUTPUT_MESSAGE.FINAL_RESULT({
+        totalGameCount,
+        winCount,
+        drawCount,
+        loseCount,
+      }),
     );
   }
 }

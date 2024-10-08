@@ -1,3 +1,4 @@
+import { GAME_RESULT } from '@/lib/constants/game-result.constant';
 import { DeckManager } from '@/models/deck/deck-manager.model';
 import { Dealer } from '@/models/participant/dealer.model';
 import { Player } from '@/models/participant/player.model';
@@ -13,14 +14,14 @@ class BlackjackController {
 
   #calculateResult(playerScore, dealerScore) {
     if (playerScore > dealerScore) {
-      return 'win';
+      return GAME_RESULT.WIN;
     }
 
     if (playerScore < dealerScore) {
-      return 'lose';
+      return GAME_RESULT.LOSE;
     }
 
-    return 'draw';
+    return GAME_RESULT.DRAW;
   }
 
   // deckManager, dealer, player를 다 인자로 받는데 이 메서드가 이 클래스 내부에 있을 필요가 있을까?
@@ -43,9 +44,9 @@ class BlackjackController {
 
     // Phase 3. 플레이어 동작
     while (player.checkCanDraw()) {
-      const wantsToDraw = await InputView.askWantsToDraw();
+      const wantsToHit = await InputView.askHitOrStand();
 
-      if (!wantsToDraw) {
+      if (!wantsToHit) {
         break;
       }
 
@@ -56,24 +57,22 @@ class BlackjackController {
 
     if (player.checkIsBust()) {
       OutputView.printPlayerBust();
-      OutputView.printPlayerResult('lose');
-      return 'lose';
+      OutputView.printPlayerResult(GAME_RESULT.LOSE);
+      return GAME_RESULT.LOSE;
     }
 
     OutputView.printSumOfPlayerCards(player.score);
 
     // Phase 4. 딜러 동작
-
-    // while (true) ???
     while (!dealer.checkIsBust()) {
-      const wantsToDraw = dealer.checkCanDraw(); // 딜러가 히트하였습니다 / 딜러가 스탠드하였습니다 띄우려면 ... 이게 최선인가?
+      const wantsToHit = dealer.checkCanDraw(); // 딜러가 히트하였습니다 / 딜러가 스탠드하였습니다 띄우려면 ... 이게 최선인가?
 
-      if (!wantsToDraw) {
-        OutputView.printDealerAction('스탠드');
+      if (!wantsToHit) {
+        OutputView.printDealerActionStand();
         break;
       }
 
-      OutputView.printDealerAction('히트');
+      OutputView.printDealerActionHit();
       const newCard = deckManager.draw();
       dealer.addCard(newCard);
       OutputView.printDealerReceiveCards([newCard]);
@@ -81,8 +80,8 @@ class BlackjackController {
 
     if (dealer.checkIsBust()) {
       OutputView.printDealerBust();
-      OutputView.printPlayerResult('win');
-      return 'win';
+      OutputView.printPlayerResult(GAME_RESULT.WIN);
+      return GAME_RESULT.WIN;
     }
 
     // Phase 5. 엔딩
@@ -107,7 +106,7 @@ class BlackjackController {
       // 그런데 단판 게임에서 여러판 게임으로 요구사항이 변경된 경우라면 이렇게 갱신하는 게 맞긴 함.
       player.updateResult(result);
 
-      this.#wantsToPlay = await InputView.askWantsToPlay();
+      this.#wantsToPlay = await InputView.askContinueToPlay();
     }
 
     OutputView.printEndGame();

@@ -1,3 +1,4 @@
+import { BLACKJACK_RULE } from '@/lib/constants/blackjack-rule.constant';
 import { Cards } from '@/models/card/cards.model';
 
 class Dealer {
@@ -22,7 +23,7 @@ class Dealer {
   }
 
   checkCanDraw() {
-    return this.#cards.score <= 16; // player.checkCanDraw랑 정녕 같은 역할을 한다고 할 수 있을까?
+    return this.#cards.score <= BLACKJACK_RULE.DEALER_HIT_MAXIMUM_THRESHOLD; // player.checkCanDraw랑 정녕 같은 역할을 한다고 할 수 있을까?
   }
 
   resetCards() {

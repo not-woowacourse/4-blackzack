@@ -1,3 +1,5 @@
+import { BLACKJACK_RULE } from '@/lib/constants/blackjack-rule.constant';
+
 class Card {
   /**
    * rank와 suit로 네이밍한 이유에 대한 설명
@@ -42,13 +44,23 @@ class Card {
   get value() {
     switch (this.#rank) {
       case 'A':
-        return 11;
+        return BLACKJACK_RULE.ACE_VALUE;
       case 'J':
       case 'Q':
       case 'K':
-        return 10;
+        return BLACKJACK_RULE.FACE_CARD_VALUE;
+      case '2':
+      case '3':
+      case '4':
+      case '5':
+      case '6':
+      case '7':
+      case '8':
+      case '9':
+      case '10':
+        return BLACKJACK_RULE.NUMBER_CARD_VALUE(this.#rank);
       default:
-        return Number(this.#rank); // TODO: 2 ~ 10 아닌 경우 예외 처리
+        throw new Error('지원하지 않는 카드 랭크입니다.');
     }
   }
 }

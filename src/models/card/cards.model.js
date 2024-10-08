@@ -1,3 +1,4 @@
+import { BLACKJACK_RULE } from '@/lib/constants/blackjack-rule.constant';
 import { sum } from 'es-toolkit';
 
 class Cards {
@@ -33,7 +34,7 @@ class Cards {
   }
 
   checkIsBust() {
-    return this.#score > 21;
+    return this.#score >= BLACKJACK_RULE.BUST_MINIMUM_THRESHOLD;
   }
 }
 

@@ -1,21 +1,21 @@
 import { Console } from '@/lib/utils/console';
+import { INPUT_MESSAGE, USER_INPUT } from '@/views/input.view.constant';
 
 class InputView {
   static async #ask(query) {
     return await Console.readLineAsync(query);
   }
 
-  // askHitOrStand?
-  static async askWantsToDraw() {
-    const answer = await this.#ask('카드를 더 받으시겠습니까? (y/n) : ');
+  static async askHitOrStand() {
+    const answer = await this.#ask(INPUT_MESSAGE.DRAW_CARD);
 
-    return answer === 'y'; // TODO: y/n 이외의 값이 들어올 경우 처리
+    return answer === USER_INPUT.YES; // TODO: y/n 이외의 값이 들어올 경우 처리
   }
 
-  static async askWantsToPlay() {
-    const answer = await this.#ask('게임을 계속하시겠습니까? (y/n) : ');
+  static async askContinueToPlay() {
+    const answer = await this.#ask(INPUT_MESSAGE.CONTINUE_GAME);
 
-    return answer === 'y'; // TODO: y/n 이외의 값이 들어올 경우 처리
+    return answer === USER_INPUT.YES; // TODO: y/n 이외의 값이 들어올 경우 처리
   }
 }
 
