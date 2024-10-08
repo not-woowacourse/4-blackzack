@@ -3,6 +3,7 @@ import { Console } from '@/lib/utils/console';
 import { BlackjackValidator } from '@/validators/blackjack.validator';
 
 import { INPUT_MESSAGE } from './input.view.constant';
+import { CANDIDATE } from './output.view.constant';
 
 /**
  * 모든 메서드가 static인데 왜 객체가 아닌 class로 만드는가?
@@ -11,6 +12,16 @@ import { INPUT_MESSAGE } from './input.view.constant';
 class InputView {
   static async #ask(query) {
     return await Console.readLineAsync(query);
+  }
+
+  static async askPlayerName() {
+    const answer = await this.#ask(INPUT_MESSAGE.PLAYER_NAME);
+
+    if (answer === '') {
+      return CANDIDATE.DEFAULT_PLAYER_NAME;
+    }
+
+    return answer;
   }
 
   static async askHitOrStand() {

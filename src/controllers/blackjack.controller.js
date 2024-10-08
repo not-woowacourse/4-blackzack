@@ -37,11 +37,11 @@ class BlackjackController {
     // Phase 2. 최초 분배
     const playerCards = deckManager.drawMultiple(2);
     player.addCards(playerCards);
-    OutputView.printPlayerReceiveCards(playerCards);
+    OutputView.printReceiveCards(player.name, playerCards);
 
     const dealerCards = deckManager.drawMultiple(2);
     dealer.addCards(dealerCards);
-    OutputView.printDealerReceiveCards(dealerCards);
+    OutputView.printReceiveCards(dealer.name, dealerCards);
 
     // Phase 3. 플레이어 동작
     while (player.checkCanDraw()) {
@@ -52,52 +52,60 @@ class BlackjackController {
       }
 
       const newCard = deckManager.draw();
-      player.addCard(newCard);
-      OutputView.printPlayerReceiveCards([newCard]);
+      player.addCards([newCard]);
+      OutputView.printReceiveCards(player.name, [newCard]);
     }
 
     if (player.checkIsBust()) {
-      OutputView.printPlayerBust();
-      OutputView.printPlayerResult(GAME_RESULT.LOSE);
+      OutputView.printBust(player.name);
+      OutputView.printPlayerResult({
+        name: player.name,
+        result: GAME_RESULT.LOSE,
+      });
       return GAME_RESULT.LOSE;
     }
 
-    OutputView.printSumOfPlayerCards(player.score);
+    OutputView.printSumOfCards({ name: player.name, sum: player.score });
 
     // Phase 4. 딜러 동작
     while (!dealer.checkIsBust()) {
       const wantsToHit = dealer.checkCanDraw(); // 딜러가 히트하였습니다 / 딜러가 스탠드하였습니다 띄우려면 ... 이게 최선인가?
 
       if (!wantsToHit) {
-        OutputView.printDealerActionStand();
+        OutputView.printActionStand(dealer.name);
         break;
       }
 
-      OutputView.printDealerActionHit();
+      OutputView.printActionHit(dealer.name);
       const newCard = deckManager.draw();
-      dealer.addCard(newCard);
-      OutputView.printDealerReceiveCards([newCard]);
+      dealer.addCards([newCard]);
+      OutputView.printReceiveCards(dealer.name, [newCard]);
     }
 
     if (dealer.checkIsBust()) {
-      OutputView.printDealerBust();
-      OutputView.printPlayerResult(GAME_RESULT.WIN);
+      OutputView.printBust(dealer.name);
+      OutputView.printPlayerResult({
+        name: player.name,
+        result: GAME_RESULT.WIN,
+      });
       return GAME_RESULT.WIN;
     }
 
     // Phase 5. 엔딩
-    OutputView.printSumOfDealerCards(dealer.score);
+    OutputView.printSumOfCards({ name: dealer.name, sum: dealer.score });
 
     const result = this.#calculateResult(player.score, dealer.score);
 
-    OutputView.printPlayerResult(result);
+    OutputView.printPlayerResult({ name: player.name, result });
     return result;
   }
 
   async run() {
     const dealer = new Dealer();
-    const player = new Player();
     const deckManager = new DeckManager(BLACKJACK_OPTION.DECK_COUNT); // 게임 옵션을 여기서 상수로 넣는게 맞나? 뭔가 DeckManager 자체를 의존성으로 받아야 할 거 같은데 아닌가?
+
+    const playerName = await InputView.askPlayerName();
+    const player = new Player(playerName);
 
     while (this.#wantsToPlay) {
       const result = await this.#playOneRound(deckManager, dealer, player);

@@ -1,30 +1,16 @@
 import { GAME_RESULT } from '@/lib/constants/game-result.constant';
 import { Console } from '@/lib/utils/console';
 
-import { CANDIDATE, OUTPUT_MESSAGE } from './output.view.constant';
+import { OUTPUT_MESSAGE } from './output.view.constant';
 
 class OutputView {
   static #print(message) {
     Console.print(message);
   }
 
-  static #printReceiveCards(name, cards) {
-    const cardString = cards.map((card) => card.toKoreanString()).join(', ');
-
-    this.#print(OUTPUT_MESSAGE.RECEIVE_CARD({ name, cardString }));
-  }
-
   // useless?
   static #printAction(name, action) {
     this.#print(OUTPUT_MESSAGE.ACTION({ name, action }));
-  }
-
-  static #printBust(name) {
-    this.#print(OUTPUT_MESSAGE.BUST(name));
-  }
-
-  static #printSumOfCards(name, sum) {
-    this.#print(OUTPUT_MESSAGE.SUM_OF_CARDS({ name, sum }));
   }
 
   static #printPlayerWin() {
@@ -35,51 +21,37 @@ class OutputView {
     this.#print(OUTPUT_MESSAGE.PLAYER_DRAW);
   }
 
-  static #printPlayerLose() {
-    this.#print(OUTPUT_MESSAGE.PLAYER_LOSE);
+  static #printPlayerLose(name) {
+    this.#print(OUTPUT_MESSAGE.PLAYER_LOSE(name));
   }
 
   static printStartGame() {
     this.#print(OUTPUT_MESSAGE.START_GAME);
   }
 
-  static printPlayerReceiveCards(cards) {
-    this.#printReceiveCards(CANDIDATE.PLAYER, cards);
+  static printReceiveCards(name, cards) {
+    const cardString = cards.map((card) => card.toKoreanString()).join(', ');
+
+    this.#print(OUTPUT_MESSAGE.RECEIVE_CARD({ name, cardString }));
   }
 
-  static printDealerReceiveCards(cards) {
-    this.#printReceiveCards(CANDIDATE.DEALER, cards);
+  static printActionHit(name) {
+    this.#printAction(name, '히트');
   }
 
-  static printDealerAction(action) {
-    this.#printAction(CANDIDATE.DEALER, action);
+  static printActionStand(name) {
+    this.#printAction(name, '스탠드');
   }
 
-  static printDealerActionHit() {
-    this.printDealerAction('히트');
+  static printBust(name) {
+    this.#print(OUTPUT_MESSAGE.BUST(name));
   }
 
-  static printDealerActionStand() {
-    this.printDealerAction('스탠드');
+  static printSumOfCards({ name, sum }) {
+    this.#print(OUTPUT_MESSAGE.SUM_OF_CARDS({ name, sum }));
   }
 
-  static printPlayerBust() {
-    this.#printBust(CANDIDATE.PLAYER);
-  }
-
-  static printDealerBust() {
-    this.#printBust(CANDIDATE.DEALER);
-  }
-
-  static printSumOfDealerCards(sum) {
-    this.#printSumOfCards(CANDIDATE.DEALER, sum);
-  }
-
-  static printSumOfPlayerCards(sum) {
-    this.#printSumOfCards(CANDIDATE.PLAYER, sum);
-  }
-
-  static printPlayerResult(result) {
+  static printPlayerResult({ name, result }) {
     switch (result) {
       case GAME_RESULT.WIN:
         this.#printPlayerWin();
@@ -88,7 +60,7 @@ class OutputView {
         this.#printPlayerDraw();
         break;
       case GAME_RESULT.LOSE:
-        this.#printPlayerLose();
+        this.#printPlayerLose(name);
         break;
       default:
         throw new Error('지원하지 않는 결과 값입니다.');

@@ -1,21 +1,24 @@
 import { BLACKJACK_RULE } from '@/lib/constants/blackjack-rule.constant';
 import { Cards } from '@/models/card/cards.model';
+import { CANDIDATE } from '@/views/output.view.constant';
 
 class Dealer {
   #cards;
+  #name;
 
   constructor() {
     this.#cards = new Cards();
+    this.#name = CANDIDATE.DEALER_NAME;
   }
 
   // Player, Dealer -> Participant 추상 클래스로 빼도 될듯?
 
-  addCard(card) {
+  #addCard(card) {
     this.#cards.add(card);
   }
 
   addCards(cards) {
-    cards.forEach((card) => this.addCard(card));
+    cards.forEach((card) => this.#addCard(card));
   }
 
   checkIsBust() {
@@ -28,6 +31,10 @@ class Dealer {
 
   resetCards() {
     this.#cards.reset();
+  }
+
+  get name() {
+    return this.#name;
   }
 
   get cards() {
