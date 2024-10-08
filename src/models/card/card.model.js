@@ -44,7 +44,7 @@ class Card {
       case 'K':
         return 10;
       default:
-        return this.#rank;
+        return Number(this.#rank);
     }
   }
 }

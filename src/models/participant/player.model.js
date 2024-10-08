@@ -2,9 +2,9 @@ import { Cards } from '@/models/card/cards.model';
 
 class Player {
   #cards;
-  #winCount;
-  #drawCount;
-  #loseCount;
+  #winCount = 0;
+  #drawCount = 0;
+  #loseCount = 0;
 
   constructor() {
     this.#cards = new Cards();
@@ -67,15 +67,15 @@ class Player {
   }
 
   get winCount() {
-    return this.#winCount;
+    return Number(this.#winCount);
   }
 
   get drawCount() {
-    return this.#drawCount;
+    return Number(this.#drawCount);
   }
 
   get loseCount() {
-    return this.#loseCount;
+    return Number(this.#loseCount);
   }
 }
 
