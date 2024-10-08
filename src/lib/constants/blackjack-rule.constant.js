@@ -8,4 +8,8 @@ const BLACKJACK_RULE = Object.freeze({
   NUMBER_CARD_VALUE: (numberString) => parseInt(numberString, 10),
 });
 
-export { BLACKJACK_RULE };
+const BLACKJACK_OPTION = Object.freeze({
+  DECK_COUNT: 4,
+});
+
+export { BLACKJACK_OPTION, BLACKJACK_RULE };

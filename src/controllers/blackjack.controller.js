@@ -1,3 +1,4 @@
+import { BLACKJACK_OPTION } from '@/lib/constants/blackjack-rule.constant';
 import { GAME_RESULT } from '@/lib/constants/game-result.constant';
 import { DeckManager } from '@/models/deck/deck-manager.model';
 import { Dealer } from '@/models/participant/dealer.model';
@@ -96,7 +97,7 @@ class BlackjackController {
   async run() {
     const dealer = new Dealer();
     const player = new Player();
-    const deckManager = new DeckManager();
+    const deckManager = new DeckManager(BLACKJACK_OPTION.DECK_COUNT); // 게임 옵션을 여기서 상수로 넣는게 맞나? 뭔가 DeckManager 자체를 의존성으로 받아야 할 거 같은데 아닌가?
 
     while (this.#wantsToPlay) {
       const result = await this.#playOneRound(deckManager, dealer, player);
