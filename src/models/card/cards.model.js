@@ -1,5 +1,6 @@
-import { BLACKJACK_RULE } from '@/lib/constants/blackjack-rule.constant';
 import { sum } from 'es-toolkit';
+
+import { BLACKJACK_RULE } from '@/lib/constants/blackjack-rule.constant';
 
 class Cards {
   #cards;
