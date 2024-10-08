@@ -1,51 +1,21 @@
 import { GAME_RESULT } from '@/lib/constants/game-result.constant';
-import { Cards } from '@/models/card/cards.model';
 
-class Player {
-  #name;
+import { Participant } from './participant.abstract-class';
+
+class Player extends Participant {
   #winCount;
   #drawCount;
   #loseCount;
-  #cards;
 
   constructor(name) {
-    this.#name = name;
+    super(name);
     this.#winCount = 0;
     this.#drawCount = 0;
     this.#loseCount = 0;
-    this.#cards = new Cards();
-  }
-
-  // 지금 cards 내의 메서드를 일일이 감싸고 있는데, 쓸모없는 중복인 듯 ...
-  // 그냥 cards를 반환하고 꺼낸 쪽에서 알아서 처리하게 하는 방법은 어떨까?
-
-  // addCard를 숨기는 게 맞나?
-  #addCard(card) {
-    this.#cards.add(card);
-  }
-
-  addCards(cards) {
-    cards.forEach((card) => this.#addCard(card));
-  }
-
-  checkIsBust() {
-    return this.#cards.checkIsBust();
   }
 
   checkCanDraw() {
-    return !this.#cards.checkIsBust();
-  }
-
-  resetCards() {
-    this.#cards.reset();
-  }
-
-  get cards() {
-    return this.#cards.cards;
-  }
-
-  get score() {
-    return this.#cards.score;
+    return !this.checkIsBust();
   }
 
   #increaseWinCount() {
@@ -75,10 +45,6 @@ class Player {
       default:
         throw new Error('지원하지 않는 결과 값입니다.');
     }
-  }
-
-  get name() {
-    return this.#name;
   }
 
   get winCount() {
